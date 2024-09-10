@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "pekilog",
+	"version": "${version}",
+	"name": "Pekilog",
+	"description": "Server-side logger improvement mod. What a Peaky Logger! :D",
+	"authors": [
+		"Tywrap Studios:",
+		">> Tiazzz"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "ARR",
+	"icon": "assets/pekilog/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.tywrapstudios.pekilog.Pekilog"
+		]
+	},
+	"mixins": [
+		"pekilog.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.5",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
