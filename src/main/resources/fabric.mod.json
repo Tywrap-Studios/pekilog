@@ -13,7 +13,7 @@
 		"sources": ""
 	},
 	"license": "ARR",
-	"icon": "assets/pekilog/icon.png",
+	"icon": "assets/pekilog/icons/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

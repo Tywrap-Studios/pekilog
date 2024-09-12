@@ -5,6 +5,7 @@ import net.minecraft.server.command.MessageCommand;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.tywrapstudios.pekilog.Pekilog;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,13 +25,14 @@ public abstract class LogMessageCommandMixin {
     )
     private static void pekilog$sendMessageCommandFeedBack(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
         ServerPlayerEntity player = source.getPlayer();
-        Text pekitext = message.getContent();
+        Text messages = message.getContent();
         Text playerName = source.getDisplayName();
         Text targetName = targets.iterator().next().getName();
-        if (source.getEntity() == player) {
-            source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.messageCommand", playerName, pekitext, targetName);
-            }, true);
-        }
+        source.sendFeedback(() -> {
+            return Text.translatable("pekiLog.messageCommand", playerName, messages, targetName);
+        }, true);
+        String messageString = messages.getString();
+        String playerNameString = playerName.getString();
+        Pekilog.LOGGER_COMMANDS.info("[PEKI_COMMAND] /tell; /w; /msg was ran by " + playerNameString + " and it said " + messageString);
     }
 }

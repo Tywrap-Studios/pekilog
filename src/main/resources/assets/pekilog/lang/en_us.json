@@ -1,3 +1,4 @@
 {
-  "pekiLog.messageCommand": "%s whispered \"%s\" to %s"
+  "pekiLog.messageCommand": "%s whispered \"%s\" to %s.",
+  "pekiLog.tellrawCommand": "%s told \"%s\" raw to %s."
 }
