@@ -2,11 +2,15 @@ package net.tywrapstudios.pekilog;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.tywrapstudios.pekilog.config.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class Pekilog implements ModInitializer {
 	public static final String MOD_ID = "pekilog";
+	public static final String MOD_VER = "1.0.0";
 	public static final String MOD_NAME = "Pekilog";
 	public static final String MOD_NAME_CAPS = "PEKILOG";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
@@ -14,8 +18,11 @@ public class Pekilog implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("[PEKI_LOG] Initializing Pekilog.");
-		LOGGER.info("[PEKI_LOG] Main Logger Initialized.");
-		LOGGER_COMMANDS.info("[PEKI_LOG] Command Logger Initialized.");
+		LOGGER.info("[Mod Log] Initializing Pekilog.");
+		LOGGER.info("[Config] Loading Config.");
+		ConfigManager.loadConfig();
+		if (!Objects.equals(ConfigManager.getConfig().MOD_VERSION_DO_NOT_TOUCH, MOD_VER)) {
+			LOGGER.warn("[Config] Your Config somehow got out of sync with the actual mod version. This can be dangerous. Try to re-run the instance or delete the log file.");
+		}
 	}
 }
