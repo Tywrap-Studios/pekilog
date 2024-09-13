@@ -7,10 +7,10 @@ Server-side logging/command feedback improvement mod.
 - No features are currently in a release.
 
 ## We plan to make it also log the following:
-- [x] **/tellraw**
-- [x] **/msg; /w; /tell.**
+- [X] **/tellraw**
+- [X] **/msg; /w; /tell.**
 > [!NOTE]
-A tick meaning it's implemented in-code, but not released yet 😉
+A crossed out box meaning it's implemented in-code, but not released yet!
 ---
 > [!WARNING]
 This mod logs private messages sent through commands, *we, Tywrap Studios, are not responsible for misuse of this feature.*
