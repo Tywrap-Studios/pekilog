@@ -27,7 +27,7 @@ public abstract class LogTellRawCommandMixin {
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;sendMessageToClient(Lnet/minecraft/text/Text;Z)V")
             )
     )
-    private static void pekilog$sendTellRawCommandFeedBack(CommandContext context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
+    private static void pekilog$logTellRawCommand(CommandContext context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
         if (ConfigManager.getConfig().logTellraw && ConfigManager.getConfig().enabled) {
             ServerCommandSource source = (ServerCommandSource) context.getSource();
             Text message = TextArgumentType.getTextArgument(context, "message");

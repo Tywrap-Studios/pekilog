@@ -24,7 +24,7 @@ public abstract class LogMessageCommandMixin {
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V")
             )
     )
-    private static void pekilog$sendMessageCommandFeedBack(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
+    private static void pekilog$logMessageCommand(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
         if (ConfigManager.getConfig().logPrivateMessages && ConfigManager.getConfig().enabled) {
             Text messages = message.getContent();
             Text playerName = source.getDisplayName();

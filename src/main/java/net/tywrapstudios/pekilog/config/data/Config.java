@@ -3,13 +3,14 @@ package net.tywrapstudios.pekilog.config.data;
 
 public class Config {
     public String MOD_VERSION_DO_NOT_TOUCH;
-//    public String comment_enabled;
+//  enabled;
     public boolean enabled;
-//    public String comment_info;
+//  info;
     public boolean outputDisabledLoggerInfo;
-//    public String comment_loggers;
+//  loggers;
     public boolean logPrivateMessages;
     public boolean logTellraw;
+    public boolean logMe;
 
 
     public Config(ConfigData data) {
@@ -18,5 +19,6 @@ public class Config {
         this.outputDisabledLoggerInfo = data.outputDisabledLoggerInfo;
         this.logPrivateMessages = data.logPrivateMessages;
         this.logTellraw = data.logTellraw;
+        this.logMe = data.logMe;
     }
 }

@@ -14,6 +14,7 @@ public class ConfigData {
     public String c3 = "Enable or disabled certain loggers";
     public boolean logPrivateMessages = true;
     public boolean logTellraw = true;
+    public boolean logMe = true;
 
     public void update() {
     }
