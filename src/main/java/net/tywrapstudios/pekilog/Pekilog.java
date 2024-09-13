@@ -14,7 +14,7 @@ public class Pekilog implements ModInitializer {
 	public static final String MOD_NAME = "Pekilog";
 	public static final String MOD_NAME_CAPS = "PEKILOG";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-	public static final Logger LOGGER_COMMANDS = LoggerFactory.getLogger(MOD_NAME);
+	public static final Logger LOGGER_COMMANDS = LoggerFactory.getLogger(MOD_NAME+" [Commands]");
 
 	@Override
 	public void onInitialize() {

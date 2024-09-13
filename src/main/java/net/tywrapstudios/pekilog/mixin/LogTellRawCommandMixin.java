@@ -8,8 +8,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.TellRawCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.Texts;
 import net.tywrapstudios.pekilog.Pekilog;
+import net.tywrapstudios.pekilog.config.ConfigManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,18 +28,21 @@ public abstract class LogTellRawCommandMixin {
             )
     )
     private static void pekilog$sendTellRawCommandFeedBack(CommandContext context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
-        ServerCommandSource source = (ServerCommandSource)context.getSource();
-        ServerPlayerEntity player = source.getPlayer();
-        Text message = TextArgumentType.getTextArgument(context, "message");
-        Text playerName = source.getDisplayName();
-        Iterator varMix = EntityArgumentType.getPlayers(context, "targets").iterator();
-        ServerPlayerEntity targets = (ServerPlayerEntity)varMix.next();
-        Text targetName = targets.getDisplayName();
-        source.sendFeedback(() -> {
-            return Text.translatable("pekiLog.tellrawCommand", playerName, message, targetName);
-        }, true);
-        String messageString = message.getString();
-        String playerNameString = playerName.getString();
-        Pekilog.LOGGER_COMMANDS.info("[PEKI_COMMAND] /tellraw was ran by " + playerNameString + " and it said " + messageString);
+        if (ConfigManager.getConfig().logTellraw && ConfigManager.getConfig().enabled) {
+            ServerCommandSource source = (ServerCommandSource) context.getSource();
+            Text message = TextArgumentType.getTextArgument(context, "message");
+            Text playerName = source.getDisplayName();
+            Iterator varMix = EntityArgumentType.getPlayers(context, "targets").iterator();
+            ServerPlayerEntity targets = (ServerPlayerEntity) varMix.next();
+            Text targetName = targets.getDisplayName();
+            source.sendFeedback(() -> {
+                return Text.translatable("pekiLog.tellrawCommand", playerName, message, targetName);
+            }, true);
+            String messageString = message.getString();
+            String playerNameString = playerName.getString();
+            Pekilog.LOGGER_COMMANDS.info("/tellraw was ran by [" + playerNameString + "] and it said [" + messageString + "]");
+        } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
+            Pekilog.LOGGER_COMMANDS.info("command [logTellraw] was not logged as per Config.");
+        }
     }
 }

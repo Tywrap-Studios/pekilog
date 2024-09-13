@@ -27,24 +27,7 @@ public class ConfigManager {
 
         CONFIG = null;
         try {
-            File dir = Paths.get("", "config").toFile();
-
-            dir.mkdirs();
-
-            File config = new File(dir, "pekilog.json");
-
-            ConfigData configData = config.exists() ? GSON_OBJECT.fromJson(new InputStreamReader(new FileInputStream(config), "UTF-8"), ConfigData.class) : new ConfigData();
-            configData.update();
-
-            CONFIG = new Config(configData);
-
-            {
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config), "UTF-8"));
-                writer.write(GSON_OBJECT.toJson(configData));
-                writer.close();
-            }
-            success = true;
-            Pekilog.LOGGER.info("[Config] Successfully read config.");
+            success = ensureConfig("Successfully read config.");
         }
         catch(IOException exception) {
             success = false;
@@ -52,7 +35,48 @@ public class ConfigManager {
             Pekilog.LOGGER.error("[Config] Something went wrong while reading config!");
             exception.printStackTrace();
         }
-
         return success;
     }
+
+    public static boolean reloadConfig() {
+        Config oldConfig = CONFIG;
+        boolean success;
+
+        CONFIG = null;
+        try {
+            Pekilog.LOGGER.info("[Config] Reloading config...");
+            success = ensureConfig("Successfully Reloaded Config.");
+        }
+        catch(IOException exception) {
+            success = false;
+            CONFIG = oldConfig;
+            Pekilog.LOGGER.error("[Config] Something went wrong while reloading config!");
+            exception.printStackTrace();
+        }
+        return success;
+    }
+
+    public static boolean ensureConfig(String logMessage) throws IOException {
+        boolean success;
+        File dir = Paths.get("", "config").toFile();
+
+        dir.mkdirs();
+
+        File config = new File(dir, "pekilog.json");
+
+        ConfigData configData = config.exists() ? GSON_OBJECT.fromJson(new InputStreamReader(new FileInputStream(config), "UTF-8"), ConfigData.class) : new ConfigData();
+        configData.update();
+
+        CONFIG = new Config(configData);
+
+        {
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config), "UTF-8"));
+            writer.write(GSON_OBJECT.toJson(configData));
+            writer.close();
+        }
+        success = true;
+        Pekilog.LOGGER.info("[Config] " + logMessage);
+        return success;
+    }
+
 }

@@ -6,6 +6,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.tywrapstudios.pekilog.Pekilog;
+import net.tywrapstudios.pekilog.config.ConfigManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,15 +25,18 @@ public abstract class LogMessageCommandMixin {
             )
     )
     private static void pekilog$sendMessageCommandFeedBack(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
-        ServerPlayerEntity player = source.getPlayer();
-        Text messages = message.getContent();
-        Text playerName = source.getDisplayName();
-        Text targetName = targets.iterator().next().getName();
-        source.sendFeedback(() -> {
-            return Text.translatable("pekiLog.messageCommand", playerName, messages, targetName);
-        }, true);
-        String messageString = messages.getString();
-        String playerNameString = playerName.getString();
-        Pekilog.LOGGER_COMMANDS.info("[PEKI_COMMAND] /tell; /w; /msg was ran by " + playerNameString + " and it said " + messageString);
+        if (ConfigManager.getConfig().logPrivateMessages && ConfigManager.getConfig().enabled) {
+            Text messages = message.getContent();
+            Text playerName = source.getDisplayName();
+            Text targetName = targets.iterator().next().getName();
+            source.sendFeedback(() -> {
+                return Text.translatable("pekiLog.messageCommand", playerName, messages, targetName);
+            }, true);
+            String messageString = messages.getString();
+            String playerNameString = playerName.getString();
+            Pekilog.LOGGER_COMMANDS.info("/tell; /w; /msg was ran by [" + playerNameString + "] and it said [" + messageString + "]");
+        } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
+            Pekilog.LOGGER_COMMANDS.info("value [logPrivateMessages] was not logged as per Config.");
+        }
     }
 }
