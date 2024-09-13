@@ -7,8 +7,8 @@ Server-side logging/command feedback improvement mod.
 - No features are currently in a release.
 
 ## We plan to make it also log the following:
-- \[x] **/tellraw**
-- \[x] **/msg; /w; /tell.**
+- {x} **/tellraw**
+- {x} **/msg; /w; /tell.**
 > [!NOTE]
 A crossed out box meaning it's implemented in-code, but not released yet!
 ---
