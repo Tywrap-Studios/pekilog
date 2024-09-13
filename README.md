@@ -2,7 +2,6 @@
 Server-side logging/command feedback improvement mod. 
 <br/>What a Peaky Logger! :D
 <br/>
-<br/>
 ## It currently logs the following:
 - No features are currently in a release.
 
