@@ -24,12 +24,14 @@ public abstract class LogMeCommandMixin {
             ServerCommandSource source = (ServerCommandSource) context.getSource();
             Text playerName = source.getDisplayName();
             Text messageText = message.getContent();
-            source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.meCommand", messageText);
-            }, true);
+            if (!ConfigManager.getConfig().onlyLogToConsole) {
+                source.sendFeedback(() -> {
+                    return Text.translatable("pekiLog.meCommand", messageText);
+                }, true);
+            }
             String messageString = messageText.getString();
             String playerNameString = playerName.getString();
-            Pekilog.LOGGER_COMMANDS.info("/me was ran by [" + playerNameString + "] and it said [" + messageString + "]");
+            Pekilog.LOGGER_COMMANDS.info("[{}: \"{}\" using /me.]",playerNameString,messageString);
         } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
             Pekilog.LOGGER_COMMANDS.info("command [logMe] was not logged as per Config.");
         }

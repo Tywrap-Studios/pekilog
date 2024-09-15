@@ -29,14 +29,16 @@ public abstract class LogMessageCommandMixin {
             Text messages = message.getContent();
             Text playerName = source.getDisplayName();
             Text targetName = targets.iterator().next().getName();
-            source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.messageCommand", messages, targetName);
-            }, true);
+            if (!ConfigManager.getConfig().onlyLogToConsole) {
+                source.sendFeedback(() -> {
+                    return Text.translatable("pekiLog.messageCommand", messages, targetName);
+                }, true);
+            }
             String messageString = messages.getString();
             String playerNameString = playerName.getString();
-            Pekilog.LOGGER_COMMANDS.info("/tell; /w; /msg was ran by [" + playerNameString + "] and it said [" + messageString + "]");
+            Pekilog.LOGGER_COMMANDS.info("[{}: \"{}\" using /tell; /w; /msg.]",playerNameString,messageString);
         } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
-            Pekilog.LOGGER_COMMANDS.info("value [logPrivateMessages] was not logged as per Config.");
+            Pekilog.LOGGER_COMMANDS.info("command [logPrivateMessages] was not logged as per Config.");
         }
     }
 }
