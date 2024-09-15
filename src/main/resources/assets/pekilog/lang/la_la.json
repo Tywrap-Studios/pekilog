@@ -1,0 +1,6 @@
+{
+  "pekiLog.messageCommand": "susurrabas \"%s\" ad %s.",
+  "pekiLog.tellrawCommand": "dixit \"%s\" rudis ad %s.",
+  "pekiLog.meCommand": "usus et /me per nuntium \"%s\"",
+  "pekiLog.configSyncError": "[Pekilog] Could not reload Pekilog Config: Version out of sync, please delete your config file and rerun Minecraft."
+}
