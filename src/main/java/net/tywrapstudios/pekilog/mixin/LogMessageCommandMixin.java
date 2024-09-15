@@ -30,7 +30,7 @@ public abstract class LogMessageCommandMixin {
             Text playerName = source.getDisplayName();
             Text targetName = targets.iterator().next().getName();
             source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.messageCommand", messages, targetName);
+                return Text.translatable("pekiLog.messageCommand", playerName, messages, targetName);
             }, true);
             String messageString = messages.getString();
             String playerNameString = playerName.getString();
