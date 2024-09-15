@@ -11,8 +11,8 @@ import java.util.Objects;
 public class Pekilog implements ModInitializer {
 	public static final String MOD_ID = "pekilog";
 	public static final String MOD_VER = "1.0.0";
-	public static final String CONFIG_V = "1";
 	public static final String MOD_NAME = "Pekilog";
+	public static final String MOD_NAME_CAPS = "PEKILOG";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	public static final Logger LOGGER_COMMANDS = LoggerFactory.getLogger(MOD_NAME+" [Commands]");
 
@@ -21,7 +21,7 @@ public class Pekilog implements ModInitializer {
 		LOGGER.info("[Mod Log] Initializing Pekilog.");
 		LOGGER.info("[Config] Loading Config.");
 		ConfigManager.loadConfig();
-		if (!Objects.equals(ConfigManager.getConfig().CONFIG_DO_NOT_TOUCH, CONFIG_V)) {
+		if (!Objects.equals(ConfigManager.getConfig().MOD_VERSION_DO_NOT_TOUCH, MOD_VER)) {
 			LOGGER.warn("[Config] Your Config somehow got out of sync with the actual mod version. This can be dangerous. Try to re-run the instance or delete the log file.");
 		}
 	}

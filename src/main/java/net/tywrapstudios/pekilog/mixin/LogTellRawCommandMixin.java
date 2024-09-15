@@ -36,7 +36,7 @@ public abstract class LogTellRawCommandMixin {
             ServerPlayerEntity targets = (ServerPlayerEntity) varMix.next();
             Text targetName = targets.getDisplayName();
             source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.tellrawCommand", message, targetName);
+                return Text.translatable("pekiLog.tellrawCommand", playerName, message, targetName);
             }, true);
             String messageString = message.getString();
             String playerNameString = playerName.getString();
