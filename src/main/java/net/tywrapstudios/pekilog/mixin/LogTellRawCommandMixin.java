@@ -35,12 +35,14 @@ public abstract class LogTellRawCommandMixin {
             Iterator varMix = EntityArgumentType.getPlayers(context, "targets").iterator();
             ServerPlayerEntity targets = (ServerPlayerEntity) varMix.next();
             Text targetName = targets.getDisplayName();
-            source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.tellrawCommand", message, targetName);
-            }, true);
+            if (!ConfigManager.getConfig().onlyLogToConsole) {
+                source.sendFeedback(() -> {
+                    return Text.translatable("pekiLog.tellrawCommand", message, targetName);
+                }, true);
+            }
             String messageString = message.getString();
             String playerNameString = playerName.getString();
-            Pekilog.LOGGER_COMMANDS.info("/tellraw was ran by [" + playerNameString + "] and it said [" + messageString + "]");
+            Pekilog.LOGGER_COMMANDS.info("[{}: \"{}\" using /tellraw.]",playerNameString,messageString);
         } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
             Pekilog.LOGGER_COMMANDS.info("command [logTellraw] was not logged as per Config.");
         }
