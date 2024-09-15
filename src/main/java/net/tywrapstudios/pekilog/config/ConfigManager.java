@@ -2,6 +2,8 @@ package net.tywrapstudios.pekilog.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.server.command.ServerCommandSource;
 import net.tywrapstudios.pekilog.Pekilog;
 import net.tywrapstudios.pekilog.config.data.Config;
 import net.tywrapstudios.pekilog.config.data.ConfigData;
@@ -21,43 +23,38 @@ public class ConfigManager {
         return CONFIG;
     }
 
-    public static boolean loadConfig() {
+    public static void loadConfig() {
         Config oldConfig = CONFIG;
-        boolean success;
 
         CONFIG = null;
         try {
-            success = ensureConfig("Successfully read config.");
+            ensureConfig("Successfully read config.");
         }
         catch(IOException exception) {
-            success = false;
             CONFIG = oldConfig;
             Pekilog.LOGGER.error("[Config] Something went wrong while reading config!");
             exception.printStackTrace();
         }
-        return success;
     }
 
-    public static boolean reloadConfig() {
+    public static void reloadConfig(CommandContext context) {
         Config oldConfig = CONFIG;
-        boolean success;
+
+        ServerCommandSource source = (ServerCommandSource) context.getSource();
 
         CONFIG = null;
         try {
             Pekilog.LOGGER.info("[Config] Reloading config...");
-            success = ensureConfig("Successfully Reloaded Config.");
+            ensureConfig("Successfully Reloaded Config.");
         }
         catch(IOException exception) {
-            success = false;
             CONFIG = oldConfig;
             Pekilog.LOGGER.error("[Config] Something went wrong while reloading config!");
             exception.printStackTrace();
         }
-        return success;
     }
 
-    public static boolean ensureConfig(String logMessage) throws IOException {
-        boolean success;
+    public static void ensureConfig(String logMessage) throws IOException {
         File dir = Paths.get("", "config").toFile();
 
         dir.mkdirs();
@@ -74,9 +71,7 @@ public class ConfigManager {
             writer.write(GSON_OBJECT.toJson(configData));
             writer.close();
         }
-        success = true;
-        Pekilog.LOGGER.info("[Config] " + logMessage);
-        return success;
+        Pekilog.LOGGER.info("[Config] {}", logMessage);
     }
 
 }

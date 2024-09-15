@@ -25,7 +25,7 @@ public abstract class LogMeCommandMixin {
             Text playerName = source.getDisplayName();
             Text messageText = message.getContent();
             source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.meCommand", playerName, messageText);
+                return Text.translatable("pekiLog.meCommand", messageText);
             }, true);
             String messageString = messageText.getString();
             String playerNameString = playerName.getString();
