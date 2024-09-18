@@ -5,10 +5,11 @@ Server-side logging/command feedback improvement mod.
 ## It currently logs the following:
 - No features are currently in a release.
 
-## We plan to make it also log the following:
+## These are our plans for this mod:
 - {x} **/tellraw**
 - {x} **/msg; /w; /tell**
 - {x} **/me**
+- { } **1.19.2** support.
 > [!NOTE]
 A crossed out box meaning it's implemented in-code, but not released yet!
 ---
