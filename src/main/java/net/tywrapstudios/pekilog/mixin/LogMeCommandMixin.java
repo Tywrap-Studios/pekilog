@@ -1,7 +1,7 @@
 package net.tywrapstudios.pekilog.mixin;
 
-import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.network.message.SignedMessage;
+import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.MeCommand;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -19,15 +19,15 @@ public abstract class LogMeCommandMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcast(Lnet/minecraft/network/message/SignedMessage;Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/network/message/MessageType$Parameters;)V"),
             slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcast(Lnet/minecraft/network/message/SignedMessage;Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/network/message/MessageType$Parameters;)V"))
     )
-    private static void pekilog$logMeCommand(CommandContext context, SignedMessage message, CallbackInfo ci) {
+    private static void pekilog$logMeCommand(PlayerManager playerManager, ServerCommandSource serverCommandSource, SignedMessage message, CallbackInfo ci) {
         if (ConfigManager.getConfig().logMe && ConfigManager.getConfig().enabled) {
-            ServerCommandSource source = (ServerCommandSource) context.getSource();
+            ServerCommandSource source = serverCommandSource;
             Text playerName = source.getDisplayName();
             Text messageText = message.getContent();
             if (!ConfigManager.getConfig().onlyLogToConsole) {
-                source.sendFeedback(() -> {
-                    return Text.translatable("pekiLog.meCommand", messageText);
-                }, true);
+                source.sendFeedback(
+                        Text.translatable("pekiLog.meCommand", messageText), true
+                );
             }
             String messageString = messageText.getString();
             String playerNameString = playerName.getString();

@@ -26,9 +26,9 @@ public abstract class ReloadMyConfig {
         if (Objects.equals(ConfigManager.getConfig().CONFIG_DO_NOT_TOUCH, Pekilog.CONFIG_V)) {
             ConfigManager.reloadConfig(context);
         } else {
-            source.sendFeedback(() -> {
-                return Text.translatable("pekiLog.configSyncError").formatted(Formatting.DARK_RED);
-            }, false);
+            source.sendFeedback(
+                    Text.translatable("pekiLog.configSyncError").formatted(Formatting.DARK_RED), false
+            );
             Pekilog.LOGGER.error("[Config] Your Config Version is out of Sync, please delete your config file and reload Minecraft.");
         }
     }

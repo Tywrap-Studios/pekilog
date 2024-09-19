@@ -1,9 +1,9 @@
 package net.tywrapstudios.pekilog.mixin;
 
+import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
 import net.minecraft.server.command.MessageCommand;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.tywrapstudios.pekilog.Pekilog;
 import net.tywrapstudios.pekilog.config.ConfigManager;
@@ -18,21 +18,21 @@ import java.util.Collection;
 @Mixin(MessageCommand.class)
 public abstract class LogMessageCommandMixin {
     @Inject(
-            method = "execute",
+            method = "method_44144",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V"),
             slice = @Slice(
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V")
             )
     )
-    private static void pekilog$logMessageCommand(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
+    private static void pekilog$logMessageCommand(ServerCommandSource serverCommandSource, Collection collection, MessageType.Parameters parameters, SignedMessage message, CallbackInfo ci) {
         if (ConfigManager.getConfig().logPrivateMessages && ConfigManager.getConfig().enabled) {
             Text messages = message.getContent();
-            Text playerName = source.getDisplayName();
-            Text targetName = targets.iterator().next().getName();
+            Text playerName = serverCommandSource.getDisplayName();
+            Text targetName = parameters.targetName();
             if (!ConfigManager.getConfig().onlyLogToConsole) {
-                source.sendFeedback(() -> {
-                    return Text.translatable("pekiLog.messageCommand", messages, targetName);
-                }, true);
+                serverCommandSource.sendFeedback(
+                    Text.translatable("pekiLog.messageCommand", messages, targetName), true
+                );
             }
             String messageString = messages.getString();
             String playerNameString = playerName.getString();
