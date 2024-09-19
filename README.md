@@ -9,7 +9,7 @@ Server-side logging/command feedback improvement mod.
 - {x} **/tellraw**
 - {x} **/msg; /w; /tell**
 - {x} **/me**
-- { } **1.19.2** support.
+- {x} **1.19.2** support.
 > [!NOTE]
 A crossed out box meaning it's implemented in-code, but not released yet!
 ---
