@@ -1,6 +1,0 @@
-{
-  "pekiLog.messageCommand": "whispered \"%s\" to %s.",
-  "pekiLog.tellrawCommand": "told \"%s\" raw to %s.",
-  "pekiLog.meCommand": "used /me with message \"%s\"",
-  "pekiLog.configSyncError": "[Pekilog] Could not reload Pekilog Config: Version out of sync, please delete your config file and rerun Minecraft."
-}
