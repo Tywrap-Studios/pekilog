@@ -19,20 +19,22 @@ import java.util.Collection;
 public abstract class LogMessageCommandMixin {
     @Inject(
             method = "execute",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V"),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V")
-            )
+            at = @At(value = "HEAD")
     )
     private static void pekilog$logMessageCommand(ServerCommandSource source, Collection<ServerPlayerEntity> targets, SignedMessage message, CallbackInfo ci) {
         if (ConfigManager.getConfig().logPrivateMessages && ConfigManager.getConfig().enabled) {
             Text messages = message.getContent();
             Text playerName = source.getDisplayName();
-            Text targetName = targets.iterator().next().getName();
             if (!ConfigManager.getConfig().onlyLogToConsole) {
-                source.sendFeedback(() -> {
-                    return Text.translatable("pekiLog.messageCommand", messages, targetName);
-                }, true);
+                if (targets.size() == 1) {
+                    source.sendFeedback(() -> {
+                        return Text.translatable("pekiLog.messageCommand", playerName, targets.iterator().next().getDisplayName());
+                    }, true);
+                } else {
+                    source.sendFeedback(() -> {
+                        return Text.translatable("pekiLog.messageCommand.multi", playerName, targets.size());
+                    }, true);
+                }
             }
             String messageString = messages.getString();
             String playerNameString = playerName.getString();
