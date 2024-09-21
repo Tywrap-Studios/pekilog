@@ -1,5 +1,6 @@
 package net.tywrapstudios.pekilog.mixin;
 
+import net.minecraft.command.argument.MessageArgumentType;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
 import net.minecraft.server.command.MessageCommand;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,23 +22,23 @@ import java.util.Iterator;
 @Mixin(MessageCommand.class)
 public abstract class LogMessageCommandMixin {
     @Inject(
-            method = "method_44144",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V"),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendChatMessage(Lnet/minecraft/network/message/SentMessage;ZLnet/minecraft/network/message/MessageType$Parameters;)V")
-            )
+            method = "execute",
+            at = @At(value = "HEAD")
     )
-    private static void pekilog$logMessageCommand(ServerCommandSource serverCommandSource, Collection collection, MessageType.Parameters parameters, SignedMessage message, CallbackInfo ci) {
+    private static void pekilog$logMessageCommand(ServerCommandSource source, Collection<ServerPlayerEntity> targets, MessageArgumentType.SignedMessage signedMessage, CallbackInfoReturnable<Integer> cir) {
         if (ConfigManager.getConfig().logPrivateMessages && ConfigManager.getConfig().enabled) {
-            Iterator iterator = collection.iterator();
-            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)iterator.next();
-            Text messages = message.getContent();
-            Text playerName = serverCommandSource.getDisplayName();
-            Text targetName = serverPlayerEntity.getDisplayName();
+            Text messages = signedMessage.signedArgument().getContent();
+            Text playerName = source.getDisplayName();
             if (!ConfigManager.getConfig().onlyLogToConsole) {
-                serverCommandSource.sendFeedback(
-                    Text.translatable("pekiLog.messageCommand", messages, targetName), true
-                );
+                if (targets.size() == 1) {
+                    source.sendFeedback(
+                        Text.translatable("pekiLog.messageCommand", playerName, targets.iterator().next().getDisplayName())
+                    , true);
+                } else {
+                    source.sendFeedback(
+                        Text.translatable("pekiLog.messageCommand.multi", playerName, targets.size())
+                    , true);
+                }
             }
             String messageString = messages.getString();
             String playerNameString = playerName.getString();

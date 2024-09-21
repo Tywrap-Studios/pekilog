@@ -18,8 +18,7 @@ import java.util.Objects;
 @Mixin(ReloadCommand.class)
 public abstract class ReloadMyConfig {
     @Inject(method = "method_13530",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ReloadCommand;findNewDataPacks(Lnet/minecraft/resource/ResourcePackManager;Lnet/minecraft/world/SaveProperties;Ljava/util/Collection;)Ljava/util/Collection;"),
-            slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ReloadCommand;findNewDataPacks(Lnet/minecraft/resource/ResourcePackManager;Lnet/minecraft/world/SaveProperties;Ljava/util/Collection;)Ljava/util/Collection;"))
+            at = @At(value = "HEAD")
     )
     private static void pekilog$ReloadMyConfig(CommandContext context, CallbackInfoReturnable<Integer> cir) {
         ServerCommandSource source = (ServerCommandSource) context.getSource();
