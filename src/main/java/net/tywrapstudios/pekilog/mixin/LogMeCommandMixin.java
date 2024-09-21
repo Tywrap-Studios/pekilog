@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MeCommand.class)
 public abstract class LogMeCommandMixin {
-    @Inject(method = "method_43645",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcast(Lnet/minecraft/network/message/SignedMessage;Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/network/message/MessageType$Parameters;)V"),
-            slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcast(Lnet/minecraft/network/message/SignedMessage;Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/network/message/MessageType$Parameters;)V"))
+    @Inject(
+            method = "method_43645",
+            at = @At(value = "HEAD")
     )
     private static void pekilog$logMeCommand(CommandContext context, SignedMessage message, CallbackInfo ci) {
         if (ConfigManager.getConfig().logMe && ConfigManager.getConfig().enabled) {
