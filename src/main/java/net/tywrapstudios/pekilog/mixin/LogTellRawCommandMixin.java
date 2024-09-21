@@ -34,11 +34,11 @@ public abstract class LogTellRawCommandMixin {
             if (!ConfigManager.getConfig().onlyLogToConsole) {
                 if (targets.size() == 1) {
                     source.sendFeedback(
-                        Text.translatable("pekiLog.tellrawCommand", playerName, targets.iterator().next().getDisplayName())
+                        Text.translatable("pekiLog.tellrawCommand", message, targets.iterator().next().getDisplayName())
                     , true);
                 } else {
                     source.sendFeedback(
-                        Text.translatable("pekiLog.tellrawCommand.multi", playerName, targets.size())
+                        Text.translatable("pekiLog.tellrawCommand.multi", message, targets.size())
                     , true);
                 }
             }

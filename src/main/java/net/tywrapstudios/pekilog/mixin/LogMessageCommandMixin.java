@@ -32,11 +32,11 @@ public abstract class LogMessageCommandMixin {
             if (!ConfigManager.getConfig().onlyLogToConsole) {
                 if (targets.size() == 1) {
                     source.sendFeedback(
-                        Text.translatable("pekiLog.messageCommand", playerName, targets.iterator().next().getDisplayName())
+                        Text.translatable("pekiLog.messageCommand", messages, targets.iterator().next().getDisplayName())
                     , true);
                 } else {
                     source.sendFeedback(
-                        Text.translatable("pekiLog.messageCommand.multi", playerName, targets.size())
+                        Text.translatable("pekiLog.messageCommand.multi", messages, targets.size())
                     , true);
                 }
             }
