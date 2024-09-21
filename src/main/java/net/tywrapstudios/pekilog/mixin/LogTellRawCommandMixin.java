@@ -10,16 +10,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.tywrapstudios.pekilog.Pekilog;
 import net.tywrapstudios.pekilog.config.ConfigManager;
-import org.apache.logging.log4j.core.jmx.Server;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 @Mixin(TellRawCommand.class)
 public abstract class LogTellRawCommandMixin {
@@ -32,15 +28,15 @@ public abstract class LogTellRawCommandMixin {
             ServerCommandSource source = (ServerCommandSource) context.getSource();
             Text message = TextArgumentType.getTextArgument(context, "message");
             Text playerName = source.getDisplayName();
-            Collection<ServerPlayerEntity> targets = EntityArgumentType.getPlayers(context, "player");
+            Collection<ServerPlayerEntity> targets = EntityArgumentType.getPlayers(context, "targets");
             if (!ConfigManager.getConfig().onlyLogToConsole) {
                 if (targets.size() == 1) {
                     source.sendFeedback(() -> {
-                        return Text.translatable("pekiLog.tellrawCommand", playerName, targets.iterator().next().getDisplayName());
+                        return Text.translatable("pekiLog.tellrawCommand", message, targets.iterator().next().getDisplayName());
                     }, true);
                 } else {
                     source.sendFeedback(() -> {
-                        return Text.translatable("pekiLog.tellrawCommand.multi", playerName, targets.size());
+                        return Text.translatable("pekiLog.tellrawCommand.multi", message, targets.size());
                     }, true);
                 }
             }
