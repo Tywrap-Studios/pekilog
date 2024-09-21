@@ -15,8 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
 
-//TODO: Fix this shit not working Server-Side ong :pray:
-
 @Mixin(MessageCommand.class)
 public abstract class LogMessageCommandMixin {
     @Inject(
