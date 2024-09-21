@@ -30,7 +30,7 @@ public abstract class LogTellRawCommandMixin {
             ServerCommandSource source = (ServerCommandSource) context.getSource();
             Text message = TextArgumentType.getTextArgument(context, "message");
             Text playerName = source.getDisplayName();
-            Collection<ServerPlayerEntity> targets = EntityArgumentType.getPlayers(context, "player");
+            Collection<ServerPlayerEntity> targets = EntityArgumentType.getPlayers(context, "targets");
             if (!ConfigManager.getConfig().onlyLogToConsole) {
                 if (targets.size() == 1) {
                     source.sendFeedback(
