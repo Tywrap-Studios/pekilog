@@ -10,39 +10,43 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.tywrapstudios.pekilog.Pekilog;
 import net.tywrapstudios.pekilog.config.ConfigManager;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 @Mixin(TellRawCommand.class)
 public abstract class LogTellRawCommandMixin {
     @Inject(
             method = "method_13777",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;sendMessageToClient(Lnet/minecraft/text/Text;Z)V"),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;sendMessageToClient(Lnet/minecraft/text/Text;Z)V")
-            )
+            at = @At(value = "HEAD")
     )
     private static void pekilog$logTellRawCommand(CommandContext context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
         if (ConfigManager.getConfig().logTellraw && ConfigManager.getConfig().enabled) {
             ServerCommandSource source = (ServerCommandSource) context.getSource();
             Text message = TextArgumentType.getTextArgument(context, "message");
             Text playerName = source.getDisplayName();
-            Iterator varMix = EntityArgumentType.getPlayers(context, "targets").iterator();
-            ServerPlayerEntity targets = (ServerPlayerEntity) varMix.next();
-            Text targetName = targets.getDisplayName();
+            Collection<ServerPlayerEntity> targets = EntityArgumentType.getPlayers(context, "player");
             if (!ConfigManager.getConfig().onlyLogToConsole) {
-                source.sendFeedback(() -> {
-                    return Text.translatable("pekiLog.tellrawCommand", message, targetName);
-                }, true);
+                if (targets.size() == 1) {
+                    source.sendFeedback(() -> {
+                        return Text.translatable("pekiLog.tellrawCommand", playerName, targets.iterator().next().getDisplayName());
+                    }, true);
+                } else {
+                    source.sendFeedback(() -> {
+                        return Text.translatable("pekiLog.tellrawCommand.multi", playerName, targets.size());
+                    }, true);
+                }
             }
             String messageString = message.getString();
             String playerNameString = playerName.getString();
-            Pekilog.LOGGER_COMMANDS.info("[{}: \"{}\" using /tellraw.]",playerNameString,messageString);
+            Pekilog.LOGGER_COMMANDS.info("[{}: \"{}\" using /tellraw.]",playerNameString, messageString);
         } else if (ConfigManager.getConfig().outputDisabledLoggerInfo) {
             Pekilog.LOGGER_COMMANDS.info("command [logTellraw] was not logged as per Config.");
         }
