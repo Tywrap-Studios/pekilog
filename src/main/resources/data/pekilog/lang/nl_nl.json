@@ -1,8 +1,8 @@
 {
   "pekiLog.messageCommand": "fluisterde \"%s\" naar %s.",
-  "pekiLog.messageCommand.multi": "whispered \"%s\" to %s players.",
-  "pekiLog.tellrawCommand": "zei \"%s\" rauw naar %s.",
-  "pekiLog.tellrawCommand.multi": "told \"%s\" raw to %s players.",
+  "pekiLog.messageCommand.multi": "fluisterde \"%s\" naar %s spelers.",
+  "pekiLog.tellrawCommand": "zei \"%s\" rauw tegen %s.",
+  "pekiLog.tellrawCommand.multi": "zei \"%s\" rauw tegen %s spelers.",
   "pekiLog.configSyncError": "[Pekilog] Kon de Configuratie niet herladen: Versie niet synchroon, verwijder je Configuratiebestand en her-lanceer Minecraft.",
   "pekiLog.meCommand": "gebruikte /me met het bericht \"%s\""
 }
