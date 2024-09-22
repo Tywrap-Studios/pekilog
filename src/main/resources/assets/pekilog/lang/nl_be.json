@@ -1,6 +1,0 @@
-{
-  "pekiLog.messageCommand": "fluisterde \"%s\" naar %s.",
-  "pekiLog.tellrawCommand": "zei \"%s\" rauw naar %s.",
-  "pekiLog.meCommand": "gebruikte /me met het bericht \"%s\"",
-  "pekiLog.configSyncError": "[Pekilog] Kon de Configuratie niet herladen: Versie niet synchroon, verwijder je Configuratiebestand en her-lanceer Minecraft."
-}
